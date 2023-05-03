@@ -45,6 +45,20 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     Toast.makeText(ForgotPasswordActivity.this, "Please Enter Your Email", Toast.LENGTH_SHORT).show();
                 }else {
                     // send email code
+                    firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if(task.isSuccessful()){
+                                Toast.makeText(ForgotPasswordActivity.this, "Email sent, You can Reset your password", Toast.LENGTH_SHORT).show();
+                                finish();
+                                startActivity(new Intent(ForgotPasswordActivity.this,MainActivity.class));
+                            }else{
+                                Toast.makeText(ForgotPasswordActivity.this, "Email is Not Registered", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
 
                 }
             }
