@@ -1,22 +1,38 @@
 package com.example.noteapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.noteapp.databinding.ActivityMainBinding;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.ThreeBounce;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding mainXml;
+    FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainXml = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mainXml.getRoot());
         getSupportActionBar().hide();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseApp.initializeApp(getApplicationContext());
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
 
         mainXml.gotoRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,13 +56,25 @@ public class MainActivity extends AppCompatActivity {
 
                 if(email.isEmpty() && password.isEmpty()){
                     mainXml.txtError.setText("Please Enter Email and Password");
-                }
-                if (email.isEmpty() && !password.isEmpty()){
+                }else if (email.isEmpty() && !password.isEmpty()){
                     mainXml.txtError.setText("Please Enter Email");
                 }else if(!email.isEmpty() && password.isEmpty()){
                     mainXml.txtError.setText("Please Enter Password");
                 }else{
                     // login user
+                    Sprite threeBounce = new ThreeBounce();
+                    mainXml.spinKit.setIndeterminateDrawable(threeBounce);
+                    firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                checkMailVerification();
+                            }else {
+//                                Toast.makeText(MainActivity.this, "Account Doesn't Exist", Toast.LENGTH_SHORT).show();
+                                mainXml.txtError.setText("Account Doesn't Exist");
+                            }
+                        }
+                    });
 
                 }
 
@@ -54,5 +82,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+    private void checkMailVerification(){
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if(firebaseUser.isEmailVerified()==true){
+            Toast.makeText(this, "Logged In", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(MainActivity.this,notesActivity.class));
+
+        }else {
+            mainXml.txtError.setText("Please verify your Email first");
+            firebaseAuth.signOut();
+        }
     }
 }
