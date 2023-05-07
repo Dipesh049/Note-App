@@ -22,12 +22,13 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding mainXml;
     FirebaseAuth firebaseAuth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainXml = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mainXml.getRoot());
-        getSupportActionBar().hide();
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseApp.initializeApp(getApplicationContext());
@@ -62,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
                     mainXml.txtError.setText("Please Enter Password");
                 }else{
                     // login user
-                    Sprite threeBounce = new ThreeBounce();
-                    mainXml.spinKit.setIndeterminateDrawable(threeBounce);
+//                    Sprite threeBounce = new ThreeBounce();
+//                    mainXml.spinKit.setIndeterminateDrawable(threeBounce);
+                    mainXml.spinKit.setVisibility(View.VISIBLE);
                     firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                             }else {
 //                                Toast.makeText(MainActivity.this, "Account Doesn't Exist", Toast.LENGTH_SHORT).show();
                                 mainXml.txtError.setText("Account Doesn't Exist");
+                                mainXml.spinKit.setVisibility(View.INVISIBLE);
                             }
                         }
                     });
@@ -89,10 +92,13 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Logged In", Toast.LENGTH_SHORT).show();
             finish();
             startActivity(new Intent(MainActivity.this,notesActivity.class));
+            mainXml.spinKit.setVisibility(View.INVISIBLE);
 
         }else {
+
             mainXml.txtError.setText("Please verify your Email first");
             firebaseAuth.signOut();
+            mainXml.spinKit.setVisibility(View.INVISIBLE);
         }
     }
 }

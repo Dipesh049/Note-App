@@ -24,7 +24,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         forgotXml = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
         setContentView(forgotXml.getRoot());
-        getSupportActionBar().hide();
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseApp.initializeApp(getApplicationContext());

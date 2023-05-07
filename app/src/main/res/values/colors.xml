@@ -9,4 +9,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#a2a2a2</color>
     <color name="highlight_text_color">#2196F3</color>
+
+    <color name="color1">#99A98F</color>
+    <color name="color2">#C1D0B5</color>
+    <color name="color3">#D6E8DB</color>
+    <color name="color4">#FFF8DE</color>
+    <color name="color5">#AA77FF</color>
+    <color name="color6">#C9EEFF</color>
+    <color name="color7">#97DEFF</color>
+    <color name="color8">#62CDFF</color>
+
+
+
 </resources>

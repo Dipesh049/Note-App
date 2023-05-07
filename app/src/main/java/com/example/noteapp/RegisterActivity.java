@@ -26,7 +26,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         RegisterXml = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(RegisterXml.getRoot());
-        getSupportActionBar().hide();
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseApp.initializeApp(getApplicationContext());
