@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Note app</string>
+    <string name="app_name">WriteNow</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txt_no_account_signup">Don\'t have an account? <font color="#2196F3">Register Now</font></string>
     <string name="txt_register_header">Create New Account</string>

@@ -61,6 +61,7 @@ public class CreateNote extends AppCompatActivity {
                             CreateNoteXml.spinKit.setVisibility(View.INVISIBLE);
                             Toast.makeText(CreateNote.this, "Note Created Successfully", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(CreateNote.this,notesActivity.class));
+                            finishAffinity();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -48,6 +49,9 @@ public class notesActivity extends AppCompatActivity {
         NotesXml = ActivityNotesBinding.inflate(getLayoutInflater());
         setContentView(NotesXml.getRoot());
 
+        SharedPreferences sh = getSharedPreferences("MySharedPref",MODE_PRIVATE);
+
+
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseApp.initializeApp(getApplicationContext());
 
@@ -64,6 +68,7 @@ public class notesActivity extends AppCompatActivity {
         NotesXml.logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sh.edit().clear().apply();
                 firebaseAuth.signOut();
                 finish();
                 startActivity(new Intent(notesActivity.this,MainActivity.class));
